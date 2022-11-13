@@ -39,7 +39,7 @@ def generate_send_url_params(data: dict) -> (List[SendParams], Set):
 
 
 async def get_send_data(params: SendParams, session, combinations, i):
-    async with session.get(config.get_access_url(), params=params) as response:
+    async with session.get(config.get_send_url(), params=params) as response:
         async with aiofiles.open(config.config.OUTPUT, mode='a') as f:
             json_data = await response.json(content_type='text/html')
             await f.write(f'{i} - {combinations} - body: {json_data["status"]}\n')
