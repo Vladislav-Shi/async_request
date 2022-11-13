@@ -22,4 +22,4 @@ def get_access_url() -> str:
 
 
 def get_send_url() -> str:
-    return f"{config.TOKEN}/api/send.php"
+    return f"{config.URL}/api/send.php"
