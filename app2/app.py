@@ -20,24 +20,24 @@ def splitting_via_pairs(data: List[dict]) -> List[DialogUser]:
     return result
 
 
-def generate_send_params(from_user: str, to_user: str, messages: list) -> dict:
+def generate_send_params(from_user: str, to_user: str, messages: str) -> dict:
     return {
         'number': to_user,
         'type': 'text',
-        'message': urllib.parse.quote(messages[randint(0, len(messages)-1)]),
+        'message': urllib.parse.quote_plus(messages),
         'instance_id': from_user,
         'access_token': config.TOKEN
     }
 
 
-async def create_dialog(session, dialog: DialogUser, messages: list, dialog_size: int):
+async def create_dialog(session, dialog: DialogUser, dialog_size: int):
     async with aiofiles.open(config.OUTPUT, mode='a') as f:
         await f.write(f'{dialog.from_user} - {dialog.to_user} - count messages {dialog_size}\n')
     for i in range(dialog_size):
-        params = generate_send_params(messages=messages, from_user=dialog.from_user, to_user=dialog.to_user)
+        params = generate_send_params(messages=config.TEXT, from_user=dialog.from_user, to_user=dialog.to_user)
         async with session.get(get_send_url(), params=params) as response:
             pass
-        params = generate_send_params(messages=messages, from_user=dialog.to_user, to_user=dialog.from_user)
+        params = generate_send_params(messages=config.TEXT, from_user=dialog.to_user, to_user=dialog.from_user)
         async with session.get(get_send_url(), params=params) as response:
             pass
 
@@ -51,13 +51,12 @@ async def main():
             request_data = await response.json(content_type='text/html')
 
         request_data = request_data['data']
-        message_list = (config.TEXT[1:-1].split('|'))
+        # message_list = (config.TEXT[1:-1].split('|'))
         pairs = splitting_via_pairs(request_data)
         for i in range(len(pairs)):
             task = asyncio.ensure_future(create_dialog(
                 session=session,
                 dialog=pairs[i],
-                messages=message_list,
                 dialog_size=randint(config.MIN_DIALOG_SIZE, config.MAX_DIALOG_SIZE)
                 )
             )
