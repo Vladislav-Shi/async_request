@@ -1,20 +1,29 @@
-import dataclasses
+from pathlib import Path
 
-from dotenv import dotenv_values
+import dotenv
+from pydantic import BaseSettings
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-@dataclasses.dataclass
-class Config:
+class Config(BaseSettings):
     URL: str
     TOKEN: str
-    TEXT: str
-    LIMIT: int
-    OUTPUT: str
+
+    TEXT: str = '{hi|Привет|здорова|здарова|приветствую|салам|хай|хаюшки|добрый вечер}'
+    LIMIT: int = 1000
+
+    OUTPUT: str = 'output.txt'
+
+    MIN_DIALOG_SIZE: int = 5
+    MAX_DIALOG_SIZE: int = 10
+
+    class Config:
+        env_file = Path(BASE_DIR, 'settings', '.env')
+        dotenv.load_dotenv(env_file)
 
 
-config = dotenv_values("settings/.env")
-config['LIMIT'] = int(config['LIMIT'])
-config = Config(**config)
+config = Config()
 
 
 def get_access_url() -> str:
