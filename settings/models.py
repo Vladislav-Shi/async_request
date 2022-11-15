@@ -10,5 +10,7 @@ class SendParams(BaseModel):
 
 
 class DialogUser(BaseModel):
-    from_user: str
-    to_user: str
+    from_user_name: str
+    from_user_token: str
+    to_user_name: str
+    to_user_token: str
