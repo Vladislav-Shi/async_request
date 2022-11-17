@@ -4,11 +4,11 @@ from random import randint
 import aiofiles
 import aiohttp
 
-from v2.app.models import DialogUser
-from v2.settings.config import config
-from v2.urils import andwa_request
-from v2.urils.andwa_request import get_file_urls, login_on_service
-from v2.urils.other_function import user_chat_log, generate_send_url_params, get_send_data, create_dialog
+from app.models import DialogUser
+from settings.config import config
+from urils import andwa_request
+from urils.andwa_request import get_file_urls, login_on_service
+from urils.other_function import user_chat_log, generate_send_url_params, get_send_data, create_dialog
 
 
 async def get_users_chats():

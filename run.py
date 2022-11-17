@@ -3,7 +3,7 @@ import asyncio
 import sys
 from datetime import datetime
 
-from v2.app.app import send_combination_request, get_users_chats, create_users_dialog
+from app.app import send_combination_request, get_users_chats, create_users_dialog
 
 
 def create_parser() -> argparse.ArgumentParser:

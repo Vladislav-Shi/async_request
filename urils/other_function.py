@@ -8,11 +8,11 @@ from typing import List, Set
 import aiofiles
 from aiohttp import ClientSession
 
-from v2.app.models import UserInstance, SendParams, DialogUser, SendFileParams
-from v2.settings.config import config
-from v2.urils import andwa_request
-from v2.urils.andwa_request import send_to_user, send_file_to_user, get_file_urls
-from v2.urils.data_generation import generate_send_params, generate_send_params_with_file
+from app.models import UserInstance, SendParams, DialogUser
+from settings.config import config
+from urils import andwa_request
+from urils.andwa_request import send_to_user, send_file_to_user
+from urils.data_generation import generate_send_params, generate_send_params_with_file
 
 
 async def user_chat_log(session: ClientSession, user: UserInstance, error_instance: list):

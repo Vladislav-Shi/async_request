@@ -1,8 +1,8 @@
 """
 Данный скрипт содержит все функции для генерации параметров запроса
 """
-from v2.app.models import SendParams, SendFileParams
-from v2.settings.config import config
+from app.models import SendParams, SendFileParams
+from settings.config import config
 
 
 def generate_send_params(from_user: str, to_user: str, messages: str) -> SendParams:

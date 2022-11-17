@@ -5,8 +5,8 @@ import aiofiles
 from aiohttp import ClientSession, FormData
 from bs4 import BeautifulSoup
 
-from v2.app.models import UserInstance, SendFileParams, SendParams
-from v2.settings.config import config
+from app.models import UserInstance, SendFileParams, SendParams
+from settings.config import config
 
 
 async def get_file_urls(session: ClientSession, token: str) -> List[str]:
