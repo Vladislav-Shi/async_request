@@ -1,14 +1,12 @@
 import asyncio
-import urllib.parse
-from pprint import pprint
 from random import randint
 from typing import List
 
 import aiofiles
 import aiohttp
 
-from settings.config import config, get_send_url, get_access_url
-from settings.models import DialogUser
+from v1.settings.config import config, get_send_url, get_access_url
+from v1.settings.models import DialogUser
 
 
 def splitting_via_pairs(data: List[dict]) -> List[DialogUser]:
@@ -67,7 +65,7 @@ async def main():
             request_data = await response.json(content_type='text/html')
 
         request_data = request_data['data']
-        pairs = splitting_via_pairs(request_data)
+            pairs = splitting_via_pairs(request_data)
         print('кол-во диалогов:', len(pairs))
         for i in range(len(pairs)):
             task = asyncio.ensure_future(create_dialog(

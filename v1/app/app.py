@@ -7,7 +7,7 @@ import aiofiles
 import aiohttp
 import pandas
 
-from settings import config
+from v1.settings import config
 
 
 class SendParams(TypedDict):
