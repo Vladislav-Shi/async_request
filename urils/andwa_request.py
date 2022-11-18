@@ -37,7 +37,6 @@ async def login_on_service(session: ClientSession, login: str, password: str, to
         'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
         'Accept-Encoding': 'gzip, deflate, br',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Content-Length': '85',
         'Origin': 'null',
         'Connection': 'keep-alive',
         'Cookie': f'token={token}',
@@ -53,7 +52,8 @@ async def login_on_service(session: ClientSession, login: str, password: str, to
     data.add_field('email', login)
     data.add_field('password', password)
     async with session.post(config.get_login_url(), data=data, headers=headers) as response:
-        print(response.status)
+        json_response = await response.json(content_type='text/html')
+        print(f'Авторизация завершилась со статусом {json_response["status"]}')
 
 
 async def get_user_list(session: ClientSession, token: str) -> List[UserInstance]:

@@ -5,7 +5,6 @@ import aiofiles
 import aiohttp
 from tortoise import Tortoise
 
-from app.models import DialogUser
 from settings.config import config, TORTOISE_ORM
 from urils import andwa_request
 from urils.andwa_request import get_file_urls, login_on_service
@@ -84,8 +83,8 @@ async def create_users_dialog():
         )
         dialogs = await get_dialog_list(users=users)
         print('кол-во диалогов:', len(dialogs))
-        await login_on_service(session=session, login=config.LOGIN, password=config.PASSWORD, token=config.TOKEN)
-        file_list = await get_file_urls(session=session, token=config.TOKEN)
+        await login_on_service(session=session, login=config.LOGIN, password=config.PASSWORD, token=config.INNER_TOKEN)
+        file_list = await get_file_urls(session=session, token=config.INNER_TOKEN)
         print('Кол-во медиа файлов:', len(file_list))
         for i in range(len(dialogs)):
             task = asyncio.ensure_future(

@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 class Config(BaseSettings):
     URL: str
     TOKEN: str
+    INNER_TOKEN: str
     LOGIN: str
     PASSWORD: str
 
