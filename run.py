@@ -3,10 +3,7 @@ import asyncio
 import sys
 from datetime import datetime
 
-from tortoise import Tortoise
-
 from app.app import send_combination_request, get_users_chats, create_users_dialog
-from settings.config import TORTOISE_ORM
 
 
 def create_parser() -> argparse.ArgumentParser:
