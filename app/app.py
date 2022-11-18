@@ -3,12 +3,17 @@ from random import randint
 
 import aiofiles
 import aiohttp
+from tortoise import Tortoise
 
 from app.models import DialogUser
-from settings.config import config
+from settings.config import config, TORTOISE_ORM
 from urils import andwa_request
 from urils.andwa_request import get_file_urls, login_on_service
-from urils.other_function import user_chat_log, generate_send_url_params, get_send_data, create_dialog
+from urils.other_function import user_chat_log, generate_send_url_params, get_send_data, create_dialog, get_dialog_list
+
+
+async def init_bd():
+    await Tortoise.init(config=TORTOISE_ORM)
 
 
 async def get_users_chats():
@@ -66,6 +71,8 @@ async def send_combination_request():
 
 
 async def create_users_dialog():
+    await init_bd()
+
     async with aiofiles.open(config.OUTPUT, mode='w') as f:
         await f.write('')
     tasks = []
@@ -75,17 +82,7 @@ async def create_users_dialog():
             session=session,
             token=config.TOKEN
         )
-        dialogs = []
-        while len(users):
-            user_from = users.pop()
-            if len(users):
-                user_to = users.pop()
-                dialogs.append(DialogUser(
-                    from_user_name=user_from.name,
-                    to_user_name=user_to.name,
-                    from_user_token=user_from.token,
-                    to_user_token=user_to.token
-                ))
+        dialogs = await get_dialog_list(users=users)
         print('кол-во диалогов:', len(dialogs))
         await login_on_service(session=session, login=config.LOGIN, password=config.PASSWORD, token=config.TOKEN)
         file_list = await get_file_urls(session=session, token=config.TOKEN)
