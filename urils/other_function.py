@@ -81,16 +81,16 @@ async def create_dialog(session: ClientSession, dialog: DialogUser, dialog_size:
     async with aiofiles.open(config.OUTPUT, mode='a') as f:
         await f.write(f'{dialog.from_user_name} - {dialog.to_user_name} - count messages {dialog_size}\n')
     for i in range(dialog_size):
-        await send_message(
+        resource = await send_message(
             session=session,
             to_user=dialog.to_user_name,
             from_user=dialog.from_user_token,
             file_url=random.choice(file_list)
         )
-        await send_message(
+        resource = await send_message(
             session=session,
-            to_user=dialog.to_user_token,
-            from_user=dialog.from_user_name,
+            to_user=dialog.from_user_name,
+            from_user=dialog.to_user_token,
             file_url=random.choice(file_list)
         )
 
