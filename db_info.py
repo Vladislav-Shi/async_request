@@ -6,6 +6,7 @@ from tortoise.expressions import Q
 
 from app.app import init_bd
 from app.database import Dialogs
+from settings.config import TORTOISE_ORM
 
 
 def create_parser() -> argparse.ArgumentParser:
