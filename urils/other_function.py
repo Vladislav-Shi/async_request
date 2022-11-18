@@ -96,6 +96,7 @@ async def create_dialog(session: ClientSession, dialog: DialogUser, dialog_size:
 
 
 async def get_dialog_list(users: List[UserInstance]) -> List[DialogUser]:
+    print('users', len(users))
     dialogs = []
     while len(users):
         user_from = users.pop()
@@ -103,21 +104,18 @@ async def get_dialog_list(users: List[UserInstance]) -> List[DialogUser]:
             user_to = random.choice(users)
         else:
             break
-        b = True
-        while b:
-            user1 = await Dialogs.get_or_none(user1=user_from.name, user2=user_to.name)
-            user2 = await Dialogs.get_or_none(user1=user_to.name, user2=user_from.name)
-            if user1 is None or user2 is None:
-                dialogs.append(DialogUser(
-                    from_user_name=user_from.name,
-                    to_user_name=user_to.name,
-                    from_user_token=user_from.token,
-                    to_user_token=user_to.token
-                ))
-                await Dialogs.create(user1=user_from.name, user2=user_to.name)
-                b = False
-                index = users.index(user_to)
-                users.pop(index)
+        user1 = await Dialogs.get_or_none(user1=user_from.name, user2=user_to.name)
+        user2 = await Dialogs.get_or_none(user1=user_to.name, user2=user_from.name)
+        if user1 is None and user2 is None:
+            dialogs.append(DialogUser(
+                from_user_name=user_from.name,
+                to_user_name=user_to.name,
+                from_user_token=user_from.token,
+                to_user_token=user_to.token
+            ))
+            await Dialogs.create(user1=user_from.name, user2=user_to.name)
+            index = users.index(user_to)
+            users.pop(index)
     return dialogs
 
 

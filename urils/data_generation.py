@@ -25,7 +25,7 @@ def generate_send_params_with_file(
     """Создает набор параметров для отправки файла"""
     return SendFileParams(
         number=to_user,
-        type='text',
+        type='media',
         message=messages,
         instance_id=from_user,
         access_token=config.TOKEN,
